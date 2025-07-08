@@ -189,7 +189,7 @@ onMounted(() => {
     max: gl.canvas.width,
     step: 1,
     value: translation[0],
-    label: 'X',
+    label: 'X軸',
     onChange: (value) => {
       translation[0] = value;
       drawScene();
@@ -202,7 +202,7 @@ onMounted(() => {
     max: gl.canvas.height,
     step: 1,
     value: translation[1],
-    label: 'Y',
+    label: 'Y軸',
     onChange: (value) => {
       translation[1] = value;
       drawScene();
