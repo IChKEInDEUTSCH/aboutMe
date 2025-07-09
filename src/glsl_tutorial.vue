@@ -214,18 +214,19 @@ onMounted(() => {
 
 </script>
 <style>
-@import './css/ui.css';
-@media (min-width: 1024px) {
-  .tutorial_canvas {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    background-color: #ffffff;
-  }
+.tutorial_canvas {
+  position: fixed ;
+  top: 0 ;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  background-color: #ffffff;
+  z-index: 0;
 }
 
 #ui {
-  position: absolute;
+  position: fixed;
   right: 10px;
   top: 10px;
   z-index: 1000;
@@ -234,5 +235,30 @@ onMounted(() => {
   border-radius: 8px;
   color: white;
   font-family: Arial, sans-serif;
+  pointer-events: auto;
+}
+
+.slider-wrapper {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.slider-wrapper label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.slider {
+  width: 200px;
+  margin: 5px 0;
+}
+
+.slider-value {
+  font-size: 12px;
+  color: #ccc;
+  text-align: center;
+  min-width: 40px;
 }
 </style>

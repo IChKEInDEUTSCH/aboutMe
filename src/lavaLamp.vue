@@ -1,10 +1,8 @@
 <template>
-  <canvas ref="canvasRef"></canvas>
-  <canvas ref="flowCanvasRef" style="position: absolute; top:0; left:0; pointer-events: none;"></canvas>
-  <div id="controls" style="position: absolute; bottom: 10px; left: 10px; color: white; font-size: 12px;">
-    Press 'F' to toggle flow field visualization
+  <div class="lava-lamp-container">
+    <canvas ref="canvasRef" class="background"></canvas>
+    <canvas ref="flowCanvasRef" style="position: absolute; top:0; left:0; pointer-events: none;"></canvas>
   </div>
-  <div id="fps">FPS: --</div>
 </template>
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
@@ -294,10 +292,15 @@ class OptimizedLavaLamp {
       const row = Math.floor(ball.y / 20);
       const index = col + row * this.flowCols;
 
-      if (this.flowField[index]) {
-        ball.vx += this.flowField[index].x * ball.flowStrength;
-        ball.vy += this.flowField[index].y * ball.flowStrength;
+      // Add boundary checks for flow field
+      if (col >= 0 && col < this.flowCols && row >= 0 && row < this.flowRows) {
+        const index = col + row * this.flowCols;
+        if (this.flowField[index]) {
+          ball.vx += this.flowField[index].x * ball.flowStrength;
+          ball.vy += this.flowField[index].y * ball.flowStrength;
+        }
       }
+
 
       // Apply some damping
       ball.vx *= 0.95;
@@ -321,16 +324,30 @@ class OptimizedLavaLamp {
       ball.x = ball.prevX + (ball.x - ball.prevX) * (1.0 - smoothingFactor);
       ball.y = ball.prevY + (ball.y - ball.prevY) * (1.0 - smoothingFactor);
 
-      // Wrap around edges
-      if (ball.x > this.canvas.width + ball.radius) ball.x = -ball.radius;
-      if (ball.x < -ball.radius) ball.x = this.canvas.width + ball.radius;
-      if (ball.y > this.canvas.height + ball.radius) ball.y = -ball.radius;
-      if (ball.y < -ball.radius) ball.y = this.canvas.height + ball.radius;
+      // Replace the wrapping section with bouncing:
+      const margin = ball.radius;
+
+      if (ball.x <= margin) {
+        ball.x = margin;
+        ball.vx = Math.abs(ball.vx) * 0.8; // Bounce with some energy loss
+      }
+      if (ball.x >= this.canvas.width - margin) {
+        ball.x = this.canvas.width - margin;
+        ball.vx = -Math.abs(ball.vx) * 0.8;
+      }
+      if (ball.y <= margin) {
+        ball.y = margin;
+        ball.vy = Math.abs(ball.vy) * 0.8;
+      }
+      if (ball.y >= this.canvas.height - margin) {
+        ball.y = this.canvas.height - margin;
+        ball.vy = -Math.abs(ball.vy) * 0.8;
+      }
 
       // Pulse radius
       ball.prevRadius = ball.radius;
       const newRadius = ball.baseRadius + Math.sin(this.time * ball.pulseSpeed) * 15;
-      ball.redius = ball.prevRadius + (newRadius - ball.prevRadius) * 0.1;
+      ball.radius = ball.prevRadius + (newRadius - ball.prevRadius) * 0.1;
       // ball.radius = ball.baseRadius + Math.sin(this.time * ball.pulseSpeed) * 20;
 
       // Occasionally change hue slightly (no need for performance)
@@ -385,10 +402,10 @@ class OptimizedLavaLamp {
 
       // Update FPS
       this.frameCount++;
-      if (this.frameCount % 60 === 0) {
-        this.fps = Math.round(1000 / deltaTime);
-        document.getElementById('fps').textContent = `FPS: ${this.fps}`;
-      }
+      // if (this.frameCount % 60 === 0) {
+      //   this.fps = Math.round(1000 / deltaTime);
+      //   document.getElementById('fps').textContent = `FPS: ${this.fps}`;
+      // }
 
       this.updateFlowField();
       this.updateMetaballs();
@@ -471,7 +488,7 @@ class OptimizedLavaLamp {
         break;
       case 'f':
         this.showFlowField = !this.showFlowField;
-        if(!this.showFlowField) {
+        if (!this.showFlowField) {
           this.flowCtx.clearRect(0, 0, this.flowCanvas.width, this.flowCanvas.height);
         }
         break;
@@ -496,9 +513,9 @@ class OptimizedLavaLamp {
           this.metaballs.pop();
         }
         break;
-      case 's':
-        this.saveImage();
-        break;
+      // case 's':
+      //   this.saveImage();
+      //   break;
     }
   }
 
@@ -527,6 +544,27 @@ class OptimizedLavaLamp {
   background: rgba(0, 0, 0, 0.7);
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+.lava-lamp-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  background-color: #000000;
+  z-index: 0;
 }
 
 #controls {
