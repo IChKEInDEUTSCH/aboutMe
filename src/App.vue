@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import lavaLamp from './lavaLamp.vue';
 import glsl_tutorial from './glsl_tutorial.vue';
+import avatarImage from '@/assets/selfie.png';
 </script>
 
 <template>
@@ -9,7 +10,7 @@ import glsl_tutorial from './glsl_tutorial.vue';
     <lava-lamp class="background-webgl" />
     <v-navigation-drawer expand-on-hover rail>
       <v-list>
-        <v-list-item prepend-avatar="./src/assets/1750315959704.png" subtitle="102silencer@gmail.com"
+        <v-list-item :prepend-avatar="avatarImage" subtitle="102silencer@gmail.com"
           title="顏珖宇"></v-list-item>
       </v-list>
 
