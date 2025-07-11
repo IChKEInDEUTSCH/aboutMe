@@ -1,17 +1,17 @@
 <template>
   <div class="lava-lamp-container">
-    <canvas ref="canvasRef" class="background"></canvas>
+    <canvas ref="canvasRef" class="background" :style="`background-color: ${props.darkMode ? '#000000' : '#fffcf5'};`"></canvas>
     <canvas ref="flowCanvasRef" style="position: absolute; top:0; left:0; pointer-events: none;"></canvas>
   </div>
 </template>
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, watch, onUnmounted, ref } from 'vue';
 
 const canvasRef = ref(null);
 const flowCanvasRef = ref(null);
 
 onMounted(() => {
-  const lavaLamp = new OptimizedLavaLamp();
+  const lavaLamp = new OptimizedLavaLamp(props.darkMode); // Pass the prop value
   window.lavaLamp = lavaLamp; // Expose for debugging
 });
 
@@ -20,8 +20,24 @@ onUnmounted(() => {
     window.lavaLamp = null; // Clean up reference
   }
 });
+
+const props = defineProps({
+  darkMode:{
+    type: Boolean,
+    default: true
+  }
+});
+
+// Watch for darkMode prop changes
+watch(() => props.darkMode, (newValue) => {
+  if (lavaLamp) {
+    lavaLamp.darkMode = newValue;
+  }
+});
+
 class OptimizedLavaLamp {
-  constructor() {
+  constructor(darkMode = true) {
+    this.darkMode = darkMode;
     this.canvas = canvasRef.value;
     this.flowCanvas = flowCanvasRef.value;
     this.flowCtx = this.flowCanvas.getContext('2d');
@@ -51,8 +67,8 @@ class OptimizedLavaLamp {
 
     // Event listeners
     window.addEventListener('resize', () => this.resize());
-    this.canvas.addEventListener('click', (e) => this.addMetaball(e));
-    document.addEventListener('keydown', (e) => this.handleKeyPress(e));
+    // this.canvas.addEventListener('click', (e) => this.addMetaball(e));
+    // document.addEventListener('keydown', (e) => this.handleKeyPress(e));
   }
 
   initWebGL() {
@@ -74,6 +90,7 @@ class OptimizedLavaLamp {
                         uniform vec3 u_metaballs[16]; // x, y, radius
                         uniform vec3 u_colors[16];    // hue as vec3 for easier processing
                         uniform int u_count;
+                        uniform bool u_darkMode;
     
                         varying vec2 v_texCoord;
     
@@ -114,14 +131,25 @@ class OptimizedLavaLamp {
                                 // Create intensity-based effects
                                 float intensity = smoothstep(1.0, 4.0, sum);
                                 float saturation = mix(0.6, 0.9, intensity / 3.0);
-                                float brightness = mix(0.7, 1.0, intensity / 3.0);
-                                float alpha = mix(0.3, 1.0, intensity / 3.0);
-    
+                                float brightness = mix(0.7, 1.0, intensity / 3.0);    
+
+                                float alpha;
+                                if(u_darkMode) {
+                                    alpha = mix(0.3,1.0, intensity / 3.0);
+                                } else {
+                                    alpha = mix(0.7, 1.0, intensity / 3.0);
+                                    brightness = mix(0.7, 0.75, intensity / 3.0);
+                                }
                                 vec3 finalColor = hsv2rgb(vec3(avgColor.x, saturation, brightness));
                                 gl_FragColor = vec4(finalColor, alpha);
                             } else {
                                 float fadeAlpha = smoothstep(0.5, 1.0, sum);
-                                gl_FragColor = vec4(0.0, 0.0, 0.0, fadeAlpha * 0.1);
+                                if (u_darkMode) {
+                                    gl_FragColor = vec4(0.0, 0.0, 0.0, fadeAlpha * 0.1);
+                                } else {
+                                    // For light mode, use a lighter background
+                                    gl_FragColor = vec4(0.0, 0.0, 0.0, fadeAlpha * 0.3);
+                                }
                             }
                         }
                     `);
@@ -146,6 +174,7 @@ class OptimizedLavaLamp {
     this.metaballsUniformLocation = this.gl.getUniformLocation(this.program, 'u_metaballs');
     this.colorsUniformLocation = this.gl.getUniformLocation(this.program, 'u_colors');
     this.countUniformLocation = this.gl.getUniformLocation(this.program, 'u_count');
+    this.darkModeUniformLocation = this.gl.getUniformLocation(this.program, 'u_darkMode');
 
     this.gl.enableVertexAttribArray(this.positionAttributeLocation);
     this.gl.vertexAttribPointer(this.positionAttributeLocation, 2, this.gl.FLOAT, false, 0, 0);
@@ -193,7 +222,7 @@ class OptimizedLavaLamp {
         vy: (Math.random() - 0.5) * 2,
         radius: 40 + Math.random() * 80,
         baseRadius: 40 + Math.random() * 80,
-        hue: 260 + Math.random() * 60, // Purple to magenta
+        hue: 121 + Math.random() * 83, // Green to light blue
         pulseSpeed: 0.01 + Math.random() * 0.02,
         flowStrength: 0.3 + Math.random() * 0.7
       });
@@ -329,19 +358,19 @@ class OptimizedLavaLamp {
 
       if (ball.x <= margin) {
         ball.x = margin;
-        ball.vx = Math.abs(ball.vx) * 0.8; // Bounce with some energy loss
+        ball.vx = Math.abs(ball.vx) * 1.8; // Bounce with some energy loss
       }
       if (ball.x >= this.canvas.width - margin) {
         ball.x = this.canvas.width - margin;
-        ball.vx = -Math.abs(ball.vx) * 0.8;
+        ball.vx = -Math.abs(ball.vx) * 1.8;
       }
       if (ball.y <= margin) {
         ball.y = margin;
-        ball.vy = Math.abs(ball.vy) * 0.8;
+        ball.vy = Math.abs(ball.vy) * 1.8;
       }
       if (ball.y >= this.canvas.height - margin) {
         ball.y = this.canvas.height - margin;
-        ball.vy = -Math.abs(ball.vy) * 0.8;
+        ball.vy = -Math.abs(ball.vy) * 1.8;
       }
 
       // Pulse radius
@@ -358,7 +387,7 @@ class OptimizedLavaLamp {
     });
   }
 
-  render() {
+  render(darkMode = true) {
     this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
     this.gl.clearColor(0, 0, 0, 1);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT);
@@ -369,10 +398,11 @@ class OptimizedLavaLamp {
     this.gl.uniform2f(this.resolutionUniformLocation, this.canvas.width, this.canvas.height);
     this.gl.uniform1f(this.timeUniformLocation, this.time);
     this.gl.uniform1i(this.countUniformLocation, this.metaballs.length);
+    this.gl.uniform1i(this.darkModeUniformLocation, darkMode ? 1 : 0);
 
     // Prepare metaball data
-    const metaballData = new Float32Array(48); // 16 * 3
-    const colorData = new Float32Array(48);    // 16 * 3
+    const metaballData = new Float32Array(this.metaballs.length * 3); // 16 * 3
+    const colorData = new Float32Array(this.metaballs.length * 3);    // 16 * 3
 
     for (let i = 0; i < Math.min(this.metaballs.length, 16); i++) {
       const ball = this.metaballs[i];
@@ -409,7 +439,7 @@ class OptimizedLavaLamp {
 
       this.updateFlowField();
       this.updateMetaballs();
-      this.render();
+      this.render(this.darkMode);
       this.drawFlowField();
 
       this.animationID = requestAnimationFrame(() => this.animate());
@@ -563,7 +593,6 @@ class OptimizedLavaLamp {
   width: 100vw;
   height: 100vh;
   display: block;
-  background-color: #000000;
   z-index: 0;
 }
 
