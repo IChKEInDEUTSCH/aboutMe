@@ -32,14 +32,14 @@
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 8px var(--shadow-color);
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 
 .theme-button {
   background-color: var(--accent-color);
   color: var(--bg-primary);
   border: none;
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 
 .theme-button:hover {
@@ -51,7 +51,7 @@
   background-color: var(--bg-primary);
   color: var(--text-primary);
   border: 2px solid var(--border-color);
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 
 .theme-input:focus {

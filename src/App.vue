@@ -4,11 +4,7 @@
     <v-btn @click="themeStore.toggleTheme" class="theme-toggle">
       {{ themeStore.themeIcon }}
     </v-btn>
-    <v-navigation-drawer 
-      expand-on-hover 
-      rail 
-      :theme="themeStore.themeMode"
-    >
+    <v-navigation-drawer expand-on-hover rail :theme="themeStore.themeMode">
       <v-list>
         <v-list-item :prepend-avatar="avatarImage" subtitle="102silencer@gmail.com" title="顏珖宇"></v-list-item>
       </v-list>
@@ -16,17 +12,17 @@
       <v-divider></v-divider>
 
       <v-list density="compact" nav class="navigation-list">
-        <v-list-item title="簡介" value="aboutme">
+        <v-list-item title="簡介" value="aboutme" @click="console.log('About Me clicked')">
           <template v-slot:prepend>
             <v-icon>mdi-account</v-icon>
           </template>
         </v-list-item>
-        <v-list-item title="經歷" value="experience">
+        <v-list-item title="經歷" value="experience" @click="console.log('Experience clicked')">
           <template v-slot:prepend>
             <v-icon>mdi-book-account</v-icon>
           </template>
         </v-list-item>
-        <v-list-item title="比賽" value="contest">
+        <v-list-item title="比賽" value="contest" @click="console.log('Contest clicked')">
           <template v-slot:prepend>
             <v-icon>mdi-medal</v-icon>
           </template>
@@ -37,7 +33,7 @@
     <v-main>
       <div class="content">
         <h1 class="main-title">顏珖宇</h1>
-        <p></p>
+        <p>在名為人生的遊戲中努力增加自己籌碼的人</p>
       </div>
     </v-main>
   </v-app>
@@ -97,7 +93,7 @@ body {
   overflow: hidden;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 #app {
@@ -131,20 +127,32 @@ body {
   height: 100vh;
   z-index: 10;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
   pointer-events: none;
 }
 
 .main-title {
-  color: var(--accent-color);
+  color: var(--text-primary);
   font-size: 4rem;
   font-family: Arial, sans-serif;
   pointer-events: auto;
   text-align: center;
   font-weight: bold;
   text-shadow: 2px 2px 4px var(--shadow-color);
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.content p {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-family: Arial, sans-serif;
+  pointer-events: auto;
+  text-align: center;
+  margin-top: 0.1rem;
+  text-shadow: 1px 1px 2px var(--shadow-color);
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
 .theme-toggle {
@@ -161,7 +169,7 @@ body {
   color: var(--text-primary) !important;
   border: 2px solid var(--border-color) !important;
   box-shadow: 0 4px 8px var(--shadow-color) !important;
-  transition: all 0.3s ease !important;
+  transition: all 0.2s ease !important;
 }
 
 .theme-toggle:hover {
@@ -171,7 +179,7 @@ body {
 
 /* Navigation drawer - let Vuetify handle the theming */
 .v-navigation-drawer {
-  transition: all 0.3s ease !important;
+  transition: all 0.2s ease !important;
 }
 
 /* Optional: Add subtle custom styling that works with both themes */
@@ -184,6 +192,10 @@ body {
 @media (max-width: 768px) {
   .main-title {
     font-size: 2.5rem;
+  }
+  
+  .content p {
+    font-size: 1rem;
   }
 
   .theme-toggle {

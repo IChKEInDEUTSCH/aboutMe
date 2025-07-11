@@ -13,7 +13,7 @@ export const useThemeStore = defineStore('theme', () => {
   function initVuetifyTheme() {
     if (typeof window !== 'undefined') {
       vuetifyTheme = useTheme()
-      vuetifyTheme.global.name.value = isDark.value ? 'dark' : 'light'
+      vuetifyTheme.change(isDark.value ? 'dark' : 'light');
     }
   }
 
@@ -70,7 +70,7 @@ export const useThemeStore = defineStore('theme', () => {
     
     // Update Vuetify theme
     if (vuetifyTheme) {
-      vuetifyTheme.global.name.value = newValue ? 'dark' : 'light'
+      vuetifyTheme.change(newValue ? 'dark' : 'light');
     }
   }, { immediate: true })
 
