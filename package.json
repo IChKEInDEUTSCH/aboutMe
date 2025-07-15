@@ -10,9 +10,9 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "oh-vue-icons": "1.0.0-rc3",
     "pinia": "^3.0.3",
-    "vue": "^3.5.17",
-    "vuetify": "^3.9.0"
+    "vue": "^3.5.17"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",

@@ -8,15 +8,15 @@ importers:
 
   .:
     dependencies:
+      oh-vue-icons:
+        specifier: 1.0.0-rc3
+        version: 1.0.0-rc3(vue@3.5.17)
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(vue@3.5.17)
       vue:
         specifier: ^3.5.17
         version: 3.5.17
-      vuetify:
-        specifier: ^3.9.0
-        version: 3.9.0(vue@3.5.17)
     devDependencies:
       '@mdi/font':
         specifier: ^7.4.47
@@ -1016,6 +1016,15 @@ packages:
   nwsapi@2.2.20:
     resolution: {integrity: sha512-/ieB+mDe4MrrKMT8z+mQL8klXydZWGR5Dowt4RAGKbJ3kIGEx3X4ljUo+6V73IXtUPWgfOlU5B9MlGxFO5T+cA==}
 
+  oh-vue-icons@1.0.0-rc3:
+    resolution: {integrity: sha512-+k2YC6piK7sEZnwbkQF3UokFPMmgqpiLP6f/H0ovQFLl20QA5V4U8EcI6EclD2Lt5NMQ3k6ilLGo8XyXqdVSvg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^2.0.0 || >=3.0.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
   open@10.1.2:
     resolution: {integrity: sha512-cxN6aIDPz6rm8hbebcP7vrQNhvRcveZoJU72Y7vskh4oIm+BZwBECnx5nTmrlres1Qapvx27Qo1Auukpf8PKXw==}
     engines: {node: '>=18'}
@@ -1340,28 +1349,23 @@ packages:
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
 
+  vue-demi@0.12.5:
+    resolution: {integrity: sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==}
+    engines: {node: '>=12'}
+    hasBin: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
   vue@3.5.17:
     resolution: {integrity: sha512-LbHV3xPN9BeljML+Xctq4lbz2lVHCR6DtbpTf5XIO6gugpXUN49j2QQPcMj086r9+AkJ0FfUT8xjulKKBkkr9g==}
     peerDependencies:
       typescript: '*'
     peerDependenciesMeta:
       typescript:
-        optional: true
-
-  vuetify@3.9.0:
-    resolution: {integrity: sha512-vjqyHP5gBFH4x0BAjdRAcS3FXY5OfHaKnC6Hhgln8tePZtKc3AUhF7BEJtcrD3l6XwL8gaYx/wMt+UP7X5EZJw==}
-    engines: {node: ^12.20 || >=14.13}
-    peerDependencies:
-      typescript: '>=4.7'
-      vite-plugin-vuetify: '>=2.1.0'
-      vue: ^3.5.0
-      webpack-plugin-vuetify: '>=3.1.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      vite-plugin-vuetify:
-        optional: true
-      webpack-plugin-vuetify:
         optional: true
 
   w3c-xmlserializer@5.0.0:
@@ -2386,6 +2390,11 @@ snapshots:
 
   nwsapi@2.2.20: {}
 
+  oh-vue-icons@1.0.0-rc3(vue@3.5.17):
+    dependencies:
+      vue: 3.5.17
+      vue-demi: 0.12.5(vue@3.5.17)
+
   open@10.1.2:
     dependencies:
       default-browser: 5.2.1
@@ -2711,6 +2720,10 @@ snapshots:
 
   vue-component-type-helpers@2.2.12: {}
 
+  vue-demi@0.12.5(vue@3.5.17):
+    dependencies:
+      vue: 3.5.17
+
   vue@3.5.17:
     dependencies:
       '@vue/compiler-dom': 3.5.17
@@ -2718,10 +2731,6 @@ snapshots:
       '@vue/runtime-dom': 3.5.17
       '@vue/server-renderer': 3.5.17(vue@3.5.17)
       '@vue/shared': 3.5.17
-
-  vuetify@3.9.0(vue@3.5.17):
-    dependencies:
-      vue: 3.5.17
 
   w3c-xmlserializer@5.0.0:
     dependencies:

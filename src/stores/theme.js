@@ -1,21 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
-import { useTheme } from 'vuetify'
 
 export const useThemeStore = defineStore('theme', () => {
   // State
   const isDark = ref(getInitialTheme())
-  
-  // Get Vuetify theme instance
-  let vuetifyTheme = null
-  
-  // Initialize Vuetify theme after component is mounted
-  function initVuetifyTheme() {
-    if (typeof window !== 'undefined') {
-      vuetifyTheme = useTheme()
-      vuetifyTheme.change(isDark.value ? 'dark' : 'light');
-    }
-  }
 
   // Getters
   const themeMode = computed(() => isDark.value ? 'dark' : 'light')
@@ -67,11 +55,6 @@ export const useThemeStore = defineStore('theme', () => {
       root.classList.add('theme-light')
       root.classList.remove('theme-dark')
     }
-    
-    // Update Vuetify theme
-    if (vuetifyTheme) {
-      vuetifyTheme.change(newValue ? 'dark' : 'light');
-    }
   }, { immediate: true })
 
   // Listen for system theme changes
@@ -95,6 +78,5 @@ export const useThemeStore = defineStore('theme', () => {
     // Actions
     toggleTheme,
     setTheme,
-    initVuetifyTheme
   }
 })
