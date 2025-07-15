@@ -27,7 +27,7 @@ const props = defineProps({
 
 /* Horizontal divider */
 .divider:not(.divider-vertical) {
-  height: v-bind('(thickness * 2) + "px"');
+  height: v-bind('(thickness) + "px"');
   width: v-bind('`calc(100% + ${parentPadding * 2}px)`');
   margin-left: v-bind('`-${parentPadding}px`');
   margin-right: v-bind('`-${parentPadding}px`');
@@ -35,7 +35,7 @@ const props = defineProps({
 
 /* Vertical divider */
 .divider-vertical {
-  width: v-bind('(thickness * 2) + "px"');
+  width: v-bind('(thickness) + "px"');
   height: v-bind('`calc(100% + ${parentPadding * 2}px)`');
   margin-top: v-bind('`-${parentPadding}px`');
   margin-bottom: v-bind('`-${parentPadding}px`');

@@ -5,14 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && copy dist\\index.html dist\\404.html",
     "preview": "vite preview",
     "test:unit": "vitest"
   },
   "dependencies": {
     "oh-vue-icons": "1.0.0-rc3",
     "pinia": "^3.0.3",
-    "vue": "^3.5.17"
+    "vue": "^3.5.17",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",
