@@ -71,7 +71,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  /* overflow: hidden; */
+  overflow: hidden;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -141,7 +141,6 @@ body {
   overflow-y: auto;
   position: relative;
   z-index: 10;
-  background-color: rgba(var(--bg-primary-rgb), 0.9);
 }
 
 .theme-toggle {

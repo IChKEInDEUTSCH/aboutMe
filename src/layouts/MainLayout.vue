@@ -153,7 +153,7 @@ body {
   overflow-y: auto;
   position: relative;
   z-index: 10;
-  background-color: rgba(var(--bg-primary-rgb), 0.9);
+  background-color: rgba(var(--bg-primary), 0.9);
   backdrop-filter: blur(10px);
 }
 
