@@ -122,6 +122,7 @@ body {
   height: calc(5%);
   border-radius: 10px;
   transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
 .navigation-drawer .list-item:hover {

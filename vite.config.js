@@ -9,7 +9,9 @@ import glsl from 'vite-plugin-glsl'
 export default defineConfig({
   plugins: [
     vue(),
-    vueDevTools(),
+    vueDevTools({
+      enabled: process.env.NODE_ENV === 'development'
+    }),
     glsl()
   ],
   resolve: {
