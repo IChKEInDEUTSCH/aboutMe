@@ -3,29 +3,39 @@
   <button @click="themeStore.toggleTheme" class="theme-toggle">
     {{ themeStore.themeIcon }}
   </button>
-  <div class="navigation-drawer">
-    <div class="list-title">
-      <img :src="avatarImage" class="image-icon" />
-      <div>
-        <div>顏珖宇</div>
-        <div>102silencer@gmail.com</div>
+  <div class="drawers">
+    <div class="navigation-drawer">
+      <div class="list-title">
+        <img :src="avatarImage" class="image-icon" />
+        <div class="title-info">
+          <div>顏珖宇</div>
+          <div>102silencer@gmail.com</div>
+        </div>
+      </div>
+      <divider :parent-padding="10" />
+      <div class="list-item" @click="navigateToHome" :class="{ active: $route.path === '/' }">
+        <v-icon scale="2" name="gi-house" />
+        <div>首頁</div>
+      </div>
+      <div class="list-item" @click="navigateToInfo" :class="{ active: $route.path === '/info' }">
+        <v-icon scale="2" name="gi-info" />
+        <div>簡介</div>
+      </div>
+      <div class="list-item" @click="navigateToExperience" :class="{ active: $route.path === '/experience' }">
+        <v-icon scale="2" name="gi-sands-of-time" />
+        <div>經歷</div>
+      </div>
+      <div class="list-item" @click="navigateToContest" :class="{ active: $route.path === '/contest' }">
+        <v-icon scale="2" name="gi-trophy" />
+        <div>比賽</div>
+      </div>
+      <div class="list-item" @click="navigateToPortfolio" :class="{ active: $route.path === '/portfolio' }">
+        <v-icon scale="2" name="gi-full-folder" />
+        <div>作品</div>
       </div>
     </div>
-    <divider :parent-padding="10" />
-    <div class="list-item" @click="navigateToHome" :class="{ active: $route.path === '/' }">
-      <v-icon scale="2" name="gi-house" /><div>首頁</div>
-    </div>
-    <div class="list-item" @click="navigateToInfo" :class="{ active: $route.path === '/info' }">
-      <v-icon scale="2" name="gi-info" /><div>簡介</div>
-    </div>
-    <div class="list-item" @click="navigateToExperience" :class="{ active: $route.path === '/experience' }">
-      <v-icon scale="2" name="gi-sands-of-time" /><div>經歷</div>
-    </div>
-    <div class="list-item" @click="navigateToContest" :class="{ active: $route.path === '/contest' }">
-      <v-icon scale="2" name="gi-trophy" /><div>比賽</div>
-    </div>
-    <div class="list-item" @click="navigateToPortfolio" :class="{ active: $route.path === '/portfolio' }">
-      <v-icon scale="2" name="gi-full-folder" /><div>作品</div>
+    <div class="bookmark">
+      This is a red rectangle bookmark that you can click to expand navigation-drawer
     </div>
   </div>
 
@@ -86,17 +96,42 @@ body {
   position: relative;
 }
 
+.drawers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
 .navigation-drawer {
   position: fixed !important;
   top: 0;
   left: 0;
-  z-index: 1;
-  width: 5%;
+  z-index: 0;
+  width: 3%;
   overflow-x: hidden;
   height: 100vh;
   background-color: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
   padding: 15px 10px 15px 10px;
   border-right: 1px solid var(--border-color);
+  transition: 0.3s;
+}
+
+@media (hover: hover) {
+  .navigation-drawer:hover {
+    transition: 0.3s;
+    width: 15%;
+  }
+
+  .navigation-drawer:hover .list-title .image-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .navigation-drawer .list-item:hover {
+    background-color: var(--accent-color);
+    cursor: pointer;
+  }
 }
 
 .navigation-drawer .list-title {
@@ -107,10 +142,15 @@ body {
   align-items: center;
 }
 
+.navigation-drawer .list-title .title-info {
+  margin-left: 10px;
+}
+
 .navigation-drawer .list-title .image-icon {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 .navigation-drawer .list-item {
@@ -125,17 +165,10 @@ body {
   white-space: nowrap;
 }
 
-.navigation-drawer .list-item:hover {
-  background-color: var(--accent-color);
-  cursor: pointer;
-}
-
 .navigation-drawer .list-item.active {
   background-color: var(--accent-color);
   font-weight: bold;
 }
-
-
 
 .background-webgl {
   top: 0 !important;
@@ -150,7 +183,7 @@ body {
   height: 100vh;
   overflow-y: auto;
   position: relative;
-  z-index: 10;
+  z-index: 1;
 }
 
 .theme-toggle {
@@ -176,13 +209,18 @@ body {
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 320px) {
+  .bookmark {
+    transform: translate(0px, 50px);
+  }
+
   .navigation-drawer {
-    width: 20%;
+    width: 80%;
+    transform: translateX(-100%);
   }
 
   .main-content {
-    margin-left: 20%;
+    margin-left: 0%;
   }
 
   .theme-toggle {

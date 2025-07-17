@@ -11,38 +11,15 @@ const canvasRef = ref(null);
 const flowCanvasRef = ref(null);
 
 onMounted(() => {
-  try {
-    const lavaLamp = new OptimizedLavaLamp(props.darkMode);
-    window.lavaLamp = lavaLamp;
-  } catch (error) {
-    console.warn('Failed to initialize lava lamp:', error);
-  }
+  const lavaLamp = new OptimizedLavaLamp(props.darkMode); // Pass the prop value
+  window.lavaLamp = lavaLamp; // Expose for debugging
 });
 
 onUnmounted(() => {
-  try {
-    if (window.lavaLamp) {
-      window.lavaLamp.destroy();
-      window.lavaLamp = null;
-    }
-  } catch (error) {
-    console.warn('Error during lava lamp cleanup:', error);
+  if (window.lavaLamp) {
+    window.lavaLamp = null; // Clean up reference
   }
 });
-
-// Handle HMR cleanup in development
-if (import.meta.hot) {
-  import.meta.hot.dispose(() => {
-    try {
-      if (window.lavaLamp) {
-        window.lavaLamp.destroy();
-        window.lavaLamp = null;
-      }
-    } catch (error) {
-      console.warn('Error during HMR cleanup:', error);
-    }
-  });
-}
 
 const props = defineProps({
   darkMode:{
@@ -53,12 +30,8 @@ const props = defineProps({
 
 // Watch for darkMode prop changes
 watch(() => props.darkMode, (newValue) => {
-  try {
-    if (window.lavaLamp) {
-      window.lavaLamp.darkMode = newValue;
-    }
-  } catch (error) {
-    console.warn('Error updating lava lamp theme:', error);
+  if (lavaLamp) {
+    lavaLamp.darkMode = newValue;
   }
 });
 

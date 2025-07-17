@@ -9,7 +9,7 @@
             參賽專題名稱 : 以影像分割及AR顯示整合系統作為弱視患者的定向和移動輔助工具
             <br>參賽群組 : 資工通訊類群
             <br>序號 : C10
-            <br>名次 : 入圍
+            <br>入圍
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
             參賽專題名稱 : 弱視患者移動輔助工具(Mobility Assistance Tool for Amblyopia Patients)
             <br>參賽群組 : 體感互動科技
             <br>隊伍名稱/編號 : 馬卡巴卡/60011
-            <br>名次 : 入圍
+            <br>入圍
           </div>
         </div>
       </div>
