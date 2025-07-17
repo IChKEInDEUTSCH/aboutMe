@@ -1,7 +1,6 @@
 <template>
   <div class="page-container">
     <h2>作品 (Portfolio)</h2>
-    <p>這裡是我的作品頁面。</p>
   </div>
 </template>
 
@@ -12,6 +11,10 @@
 .page-container {
   padding: 20px;
   color: var(--text-primary);
+  background-color: rgba(var(--bg-primary-rgb), 0.7);
+  backdrop-filter: blur(50px);
+  overflow-y: auto;
+  height: 100%;
 }
 
 h2 {

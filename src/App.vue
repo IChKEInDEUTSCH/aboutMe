@@ -6,23 +6,26 @@
   <div class="navigation-drawer">
     <div class="list-title">
       <img :src="avatarImage" class="image-icon" />
-      basic info
+      <div>
+        <div>顏珖宇</div>
+        <div>102silencer@gmail.com</div>
+      </div>
     </div>
     <divider :parent-padding="10" />
     <div class="list-item" @click="navigateToHome" :class="{ active: $route.path === '/' }">
-      <v-icon scale="2" name="gi-house" />首頁
+      <v-icon scale="2" name="gi-house" /><div>首頁</div>
     </div>
     <div class="list-item" @click="navigateToInfo" :class="{ active: $route.path === '/info' }">
-      <v-icon scale="2" name="gi-info" />簡介
+      <v-icon scale="2" name="gi-info" /><div>簡介</div>
     </div>
     <div class="list-item" @click="navigateToExperience" :class="{ active: $route.path === '/experience' }">
-      <v-icon scale="2" name="gi-sands-of-time" />經歷
+      <v-icon scale="2" name="gi-sands-of-time" /><div>經歷</div>
     </div>
     <div class="list-item" @click="navigateToContest" :class="{ active: $route.path === '/contest' }">
-      <v-icon scale="2" name="gi-trophy" />比賽
+      <v-icon scale="2" name="gi-trophy" /><div>比賽</div>
     </div>
     <div class="list-item" @click="navigateToPortfolio" :class="{ active: $route.path === '/portfolio' }">
-      <v-icon scale="2" name="gi-full-folder" />作品
+      <v-icon scale="2" name="gi-full-folder" /><div>作品</div>
     </div>
   </div>
 
@@ -88,23 +91,32 @@ body {
   top: 0;
   left: 0;
   z-index: 1;
-  width: 15%;
+  width: 5%;
+  overflow-x: hidden;
   height: 100vh;
-  background-color: var(--bg-secondary);
+  background-color: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
   padding: 15px 10px 15px 10px;
   border-right: 1px solid var(--border-color);
 }
 
 .navigation-drawer .list-title {
-  font-size: 1.5rem;
+  font-size: 1rem;
   color: var(--text-primary);
   font-weight: bold;
   display: flex;
+  align-items: center;
+}
+
+.navigation-drawer .list-title .image-icon {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 .navigation-drawer .list-item {
   display: flex;
   align-items: center;
+  overflow: hidden;
   margin: 5px 0 5px 0;
   font-size: 1.2rem;
   height: calc(5%);
@@ -122,10 +134,7 @@ body {
   font-weight: bold;
 }
 
-.navigation-drawer .list-title .image-icon {
-  border-radius: 50%;
-  width: 50px;
-}
+
 
 .background-webgl {
   top: 0 !important;
