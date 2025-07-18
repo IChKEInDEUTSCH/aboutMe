@@ -33,9 +33,11 @@
         <v-icon scale="2" name="gi-full-folder" />
         <div>作品</div>
       </div>
-    </div>
-    <div class="bookmark" :class="{ 'mobile-open': isMobileDrawerOpen }" @click="toggleMobileDrawer">
-      ☰
+      
+      <!-- Bookmark inside drawer but positioned outside -->
+      <div class="bookmark" @click="toggleMobileDrawer">
+        ☰
+      </div>
     </div>
   </div>
 
@@ -52,7 +54,6 @@ import avatarImage from '@/assets/selfie.png';
 import { useThemeStore } from '@/stores/theme';
 import divider from '@/components/ui/divider.vue';
 
-const drawerToggle = ref(null);
 const isMobileDrawerOpen = ref(false);
 
 // Use the theme store
@@ -69,13 +70,11 @@ const toggleMobileDrawer = () => {
 // Click outside to close drawer
 const handleClickOutside = (event) => {
   const drawer = document.querySelector('.navigation-drawer');
-  const bookmark = document.querySelector('.bookmark');
   
-  // Only close if drawer is open and click is outside both drawer and bookmark
+  // Only close if drawer is open and click is outside the drawer
+  // (bookmark is now inside drawer, so we don't need to exclude it)
   if (isMobileDrawerOpen.value &&
-      drawer && bookmark && 
-      !drawer.contains(event.target) && 
-      !bookmark.contains(event.target)) {
+      drawer && !drawer.contains(event.target)) {
     isMobileDrawerOpen.value = false;
   }
 };
@@ -144,7 +143,7 @@ body {
   top: 0;
   left: 0;
   z-index: 0;
-  overflow-x: hidden;
+  overflow: visible; /* Changed from hidden to visible */
   height: 100vh;
   background-color: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
   padding: 15px 10px 15px 10px;
@@ -154,8 +153,9 @@ body {
 
 .bookmark {
   display: none;
-  position: fixed;
+  position: absolute; /* Changed from fixed to absolute */
   top: 10%;
+  right: -12px; /* Position outside the drawer */
   width: 12px;
   height: 60px;
   background-color: red;
@@ -164,7 +164,7 @@ body {
   justify-content: center;
   color: white;
   cursor: pointer;
-  z-index: 3;
+  z-index: 4;
 }
 
 @media (hover: hover) {
@@ -182,10 +182,6 @@ body {
     background-color: var(--accent-color);
     cursor: pointer;
   }
-
-  /* .navigation-drawer:hover+.bookmark {
-    left: 15%;
-  } */
 }
 
 .navigation-drawer .list-title {
@@ -265,8 +261,6 @@ body {
 @media (max-width: 375px) {
   .bookmark {
     display: flex;
-    left: 0px;
-    transition: left 0.3s ease;
   }
 
   .navigation-drawer {
@@ -278,11 +272,6 @@ body {
   /* When drawer is open, show it */
   .navigation-drawer.mobile-open {
     transform: translateX(0);
-  }
-
-  /* Move bookmark when drawer is open */
-  .bookmark.mobile-open {
-    left: calc(80%);
   }
 
   .main-content {
@@ -301,8 +290,6 @@ body {
 @media (min-width: 376px) and (max-width: 425px) {
   .bookmark {
     display: flex;
-    left: 0px;
-    transition: left 0.3s ease;
   }
 
   .navigation-drawer {
@@ -314,11 +301,6 @@ body {
   /* When drawer is open, show it */
   .navigation-drawer.mobile-open {
     transform: translateX(0);
-  }
-
-  /* Move bookmark when drawer is open */
-  .bookmark.mobile-open {
-    left: calc(80%);
   }
 
   .main-content {
@@ -337,8 +319,6 @@ body {
 @media (min-width: 426px) and (max-width: 768px) {
   .bookmark {
     display: flex;
-    left: 0px;
-    transition: left 0.3s ease;
   }
 
   .navigation-drawer {
@@ -350,11 +330,6 @@ body {
   /* When drawer is open, show it */
   .navigation-drawer.mobile-open {
     transform: translateX(0);
-  }
-
-  /* Move bookmark when drawer is open */
-  .bookmark.mobile-open {
-    left: calc(40%);
   }
 
   .main-content {
