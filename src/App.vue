@@ -4,8 +4,7 @@
     {{ themeStore.themeIcon }}
   </button>
   <div class="drawers">
-    <input type="checkbox" id="drawer-toggle" class="drawer-toggle" ref="drawerToggle">
-    <div class="navigation-drawer">
+    <div class="navigation-drawer" :class="{ 'mobile-open': isMobileDrawerOpen }">
       <div class="list-title">
         <img :src="avatarImage" class="image-icon" />
         <div class="title-info">
@@ -35,9 +34,9 @@
         <div>作品</div>
       </div>
     </div>
-    <label for="drawer-toggle" class="bookmark">
+    <div class="bookmark" :class="{ 'mobile-open': isMobileDrawerOpen }" @click="toggleMobileDrawer">
       ☰
-    </label>
+    </div>
   </div>
 
   <div class="main-content">
@@ -54,6 +53,7 @@ import { useThemeStore } from '@/stores/theme';
 import divider from '@/components/ui/divider.vue';
 
 const drawerToggle = ref(null);
+const isMobileDrawerOpen = ref(false);
 
 // Use the theme store
 const themeStore = useThemeStore();
@@ -61,53 +61,57 @@ const themeStore = useThemeStore();
 // Use Vue Router
 const router = useRouter();
 
+// Toggle mobile drawer
+const toggleMobileDrawer = () => {
+  isMobileDrawerOpen.value = !isMobileDrawerOpen.value;
+};
+
 // Click outside to close drawer
 const handleClickOutside = (event) => {
   const drawer = document.querySelector('.navigation-drawer');
   const bookmark = document.querySelector('.bookmark');
   
   // Only close if drawer is open and click is outside both drawer and bookmark
-  if (drawerToggle.value && drawerToggle.value.checked &&
+  if (isMobileDrawerOpen.value &&
       drawer && bookmark && 
       !drawer.contains(event.target) && 
       !bookmark.contains(event.target)) {
-    drawerToggle.value.checked = false;
+    isMobileDrawerOpen.value = false;
   }
 };
 
 onMounted(() => {
-  // Use mousedown instead of click to avoid interference with label click
-  document.addEventListener('mousedown', handleClickOutside);
+  document.addEventListener('click', handleClickOutside);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('mousedown', handleClickOutside);
+  document.removeEventListener('click', handleClickOutside);
 });
 
 // Navigation functions
 const navigateToHome = () => {
   router.push('/');
-  drawerToggle.value.checked = false;
+  isMobileDrawerOpen.value = false;
 };
 
 const navigateToInfo = () => {
   router.push('/info');
-  drawerToggle.value.checked = false;
+  isMobileDrawerOpen.value = false;
 };
 
 const navigateToExperience = () => {
   router.push('/experience');
-  drawerToggle.value.checked = false;
+  isMobileDrawerOpen.value = false;
 };
 
 const navigateToContest = () => {
   router.push('/contest');
-  drawerToggle.value.checked = false;
+  isMobileDrawerOpen.value = false;
 };
 
 const navigateToPortfolio = () => {
   router.push('/portfolio');
-  drawerToggle.value.checked = false;
+  isMobileDrawerOpen.value = false;
 };
 </script>
 
@@ -161,10 +165,6 @@ body {
   color: white;
   cursor: pointer;
   z-index: 3;
-}
-
-.drawer-toggle {
-  display: none;
 }
 
 @media (hover: hover) {
@@ -275,16 +275,15 @@ body {
     transition: transform 0.3s ease;
   }
 
-  /* When checkbox is checked, show the drawer */
-  .drawer-toggle:checked~.navigation-drawer {
+  /* When drawer is open, show it */
+  .navigation-drawer.mobile-open {
     transform: translateX(0);
   }
 
   /* Move bookmark when drawer is open */
-  .drawer-toggle:checked~.bookmark {
+  .bookmark.mobile-open {
     left: calc(80%);
   }
-  
 
   .main-content {
     margin-left: 0%;
@@ -312,13 +311,13 @@ body {
     transition: transform 0.3s ease;
   }
 
-  /* When checkbox is checked, show the drawer */
-  .drawer-toggle:checked~.navigation-drawer {
+  /* When drawer is open, show it */
+  .navigation-drawer.mobile-open {
     transform: translateX(0);
   }
 
   /* Move bookmark when drawer is open */
-  .drawer-toggle:checked~.bookmark {
+  .bookmark.mobile-open {
     left: calc(80%);
   }
 
@@ -348,13 +347,13 @@ body {
     transition: transform 0.3s ease;
   }
 
-  /* When checkbox is checked, show the drawer */
-  .drawer-toggle:checked~.navigation-drawer {
+  /* When drawer is open, show it */
+  .navigation-drawer.mobile-open {
     transform: translateX(0);
   }
 
   /* Move bookmark when drawer is open */
-  .drawer-toggle:checked~.bookmark {
+  .bookmark.mobile-open {
     left: calc(40%);
   }
 
