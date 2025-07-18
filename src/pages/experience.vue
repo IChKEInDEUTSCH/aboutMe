@@ -47,7 +47,7 @@
   background-color: rgba(var(--bg-primary-rgb), 0.7);
   backdrop-filter: blur(50px);
   overflow-y: auto;
-  height: fit-content;
+  height: 100%;
 }
 
 .page-title {

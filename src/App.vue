@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import lavaLamp from '@/lavaLamp.vue';
 import avatarImage from '@/assets/selfie.png';
@@ -60,6 +60,29 @@ const themeStore = useThemeStore();
 
 // Use Vue Router
 const router = useRouter();
+
+// Click outside to close drawer
+const handleClickOutside = (event) => {
+  if (drawerToggle.value && drawerToggle.value.checked) {
+    const drawer = document.querySelector('.navigation-drawer');
+    const bookmark = document.querySelector('.bookmark');
+    
+    // Check if click is outside both drawer and bookmark
+    if (drawer && bookmark && 
+        !drawer.contains(event.target) && 
+        !bookmark.contains(event.target)) {
+      drawerToggle.value.checked = false;
+    }
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 
 // Navigation functions
 const navigateToHome = () => {
