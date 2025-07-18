@@ -4,6 +4,7 @@
     {{ themeStore.themeIcon }}
   </button>
   <div class="drawers">
+    <input type="checkbox" id="drawer-toggle" class="drawer-toggle" ref="drawerToggle">
     <div class="navigation-drawer">
       <div class="list-title">
         <img :src="avatarImage" class="image-icon" />
@@ -34,9 +35,9 @@
         <div>作品</div>
       </div>
     </div>
-    <div class="bookmark">
-      This is a red rectangle bookmark that you can click to expand navigation-drawer
-    </div>
+    <label for="drawer-toggle" class="bookmark">
+      ☰
+    </label>
   </div>
 
   <div class="main-content">
@@ -45,11 +46,14 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import lavaLamp from '@/lavaLamp.vue';
 import avatarImage from '@/assets/selfie.png';
 import { useThemeStore } from '@/stores/theme';
 import divider from '@/components/ui/divider.vue';
+
+const drawerToggle = ref(null);
 
 // Use the theme store
 const themeStore = useThemeStore();
@@ -60,22 +64,27 @@ const router = useRouter();
 // Navigation functions
 const navigateToHome = () => {
   router.push('/');
+  drawerToggle.value.checked = false;
 };
 
 const navigateToInfo = () => {
   router.push('/info');
+  drawerToggle.value.checked = false;
 };
 
 const navigateToExperience = () => {
   router.push('/experience');
+  drawerToggle.value.checked = false;
 };
 
 const navigateToContest = () => {
   router.push('/contest');
+  drawerToggle.value.checked = false;
 };
 
 const navigateToPortfolio = () => {
   router.push('/portfolio');
+  drawerToggle.value.checked = false;
 };
 </script>
 
@@ -117,6 +126,25 @@ body {
   transition: 0.3s;
 }
 
+.bookmark {
+  display: none;
+  position: fixed;
+  top: 10%;
+  width: 12px;
+  height: 60px;
+  background-color: red;
+  border-radius: 0 10px 10px 0;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.drawer-toggle {
+  display: none;
+}
+
 @media (hover: hover) {
   .navigation-drawer:hover {
     transition: 0.3s;
@@ -132,6 +160,10 @@ body {
     background-color: var(--accent-color);
     cursor: pointer;
   }
+
+  /* .navigation-drawer:hover+.bookmark {
+    left: 15%;
+  } */
 }
 
 .navigation-drawer .list-title {
@@ -209,14 +241,27 @@ body {
 }
 
 /* Responsive design */
-@media (max-width: 320px) {
+@media (max-width: 375px) {
   .bookmark {
-    transform: translate(0px, 50px);
+    display: flex;
+    left: 0px;
+    transition: left 0.3s ease;
   }
 
   .navigation-drawer {
     width: 80%;
     transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* When checkbox is checked, show the drawer */
+  .drawer-toggle:checked ~ .navigation-drawer {
+    transform: translateX(0);
+  }
+
+  /* Move bookmark when drawer is open */
+  .drawer-toggle:checked ~ .bookmark {
+    left: calc(80%);
   }
 
   .main-content {
