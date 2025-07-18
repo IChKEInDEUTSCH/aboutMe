@@ -4,7 +4,7 @@
     {{ themeStore.themeIcon }}
   </button>
   <div class="drawers">
-    <div class="navigation-drawer" :class="{ 'mobile-open': isMobileDrawerOpen }">
+    <div class="navigation-drawer" ref="navigationDrawer" :class="{ 'mobile-open': isMobileDrawerOpen }">
       <div class="list-title">
         <img :src="avatarImage" class="image-icon" />
         <div class="title-info">
@@ -55,6 +55,7 @@ import { useThemeStore } from '@/stores/theme';
 import divider from '@/components/ui/divider.vue';
 
 const isMobileDrawerOpen = ref(false);
+const navigationDrawer = ref(null);
 
 // Use the theme store
 const themeStore = useThemeStore();
@@ -69,7 +70,7 @@ const toggleMobileDrawer = () => {
 
 // Click outside to close drawer
 const handleClickOutside = (event) => {
-  const drawer = document.querySelector('.navigation-drawer');
+  const drawer = navigationDrawer.value;
   
   // Only close if drawer is open and click is outside the drawer
   // (bookmark is now inside drawer, so we don't need to exclude it)
@@ -165,23 +166,6 @@ body {
   color: white;
   cursor: pointer;
   z-index: 4;
-}
-
-@media (hover: hover) {
-  .navigation-drawer:hover {
-    transition: 0.3s;
-    width: 15%;
-  }
-
-  .navigation-drawer:hover .list-title .image-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .navigation-drawer .list-item:hover {
-    background-color: var(--accent-color);
-    cursor: pointer;
-  }
 }
 
 .navigation-drawer .list-title {
