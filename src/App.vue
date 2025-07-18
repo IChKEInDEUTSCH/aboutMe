@@ -117,7 +117,6 @@ body {
   top: 0;
   left: 0;
   z-index: 0;
-  width: 3%;
   overflow-x: hidden;
   height: 100vh;
   background-color: color-mix(in srgb, var(--bg-secondary) 90%, transparent);
@@ -211,7 +210,6 @@ body {
 }
 
 .main-content {
-  margin-left: 15%;
   height: 100vh;
   overflow-y: auto;
   position: relative;
@@ -255,13 +253,85 @@ body {
   }
 
   /* When checkbox is checked, show the drawer */
-  .drawer-toggle:checked ~ .navigation-drawer {
+  .drawer-toggle:checked~.navigation-drawer {
     transform: translateX(0);
   }
 
   /* Move bookmark when drawer is open */
-  .drawer-toggle:checked ~ .bookmark {
+  .drawer-toggle:checked~.bookmark {
     left: calc(80%);
+  }
+
+  .main-content {
+    margin-left: 0%;
+  }
+
+  .theme-toggle {
+    top: 15px !important;
+    right: 15px !important;
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (min-width: 376px) and (max-width: 425px) {
+  .bookmark {
+    display: flex;
+    left: 0px;
+    transition: left 0.3s ease;
+  }
+
+  .navigation-drawer {
+    width: 80%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* When checkbox is checked, show the drawer */
+  .drawer-toggle:checked~.navigation-drawer {
+    transform: translateX(0);
+  }
+
+  /* Move bookmark when drawer is open */
+  .drawer-toggle:checked~.bookmark {
+    left: calc(80%);
+  }
+
+  .main-content {
+    margin-left: 0%;
+  }
+
+  .theme-toggle {
+    top: 15px !important;
+    right: 15px !important;
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  .bookmark {
+    display: flex;
+    left: 0px;
+    transition: left 0.3s ease;
+  }
+
+  .navigation-drawer {
+    width: 40%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  /* When checkbox is checked, show the drawer */
+  .drawer-toggle:checked~.navigation-drawer {
+    transform: translateX(0);
+  }
+
+  /* Move bookmark when drawer is open */
+  .drawer-toggle:checked~.bookmark {
+    left: calc(40%);
   }
 
   .main-content {
