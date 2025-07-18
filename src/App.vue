@@ -63,25 +63,25 @@ const router = useRouter();
 
 // Click outside to close drawer
 const handleClickOutside = (event) => {
-  if (drawerToggle.value && drawerToggle.value.checked) {
-    const drawer = document.querySelector('.navigation-drawer');
-    const bookmark = document.querySelector('.bookmark');
-    
-    // Check if click is outside both drawer and bookmark
-    if (drawer && bookmark && 
-        !drawer.contains(event.target) && 
-        !bookmark.contains(event.target)) {
-      drawerToggle.value.checked = false;
-    }
+  const drawer = document.querySelector('.navigation-drawer');
+  const bookmark = document.querySelector('.bookmark');
+  
+  // Only close if drawer is open and click is outside both drawer and bookmark
+  if (drawerToggle.value && drawerToggle.value.checked &&
+      drawer && bookmark && 
+      !drawer.contains(event.target) && 
+      !bookmark.contains(event.target)) {
+    drawerToggle.value.checked = false;
   }
 };
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
+  // Use mousedown instead of click to avoid interference with label click
+  document.addEventListener('mousedown', handleClickOutside);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('mousedown', handleClickOutside);
 });
 
 // Navigation functions
